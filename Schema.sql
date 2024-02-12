@@ -91,3 +91,56 @@ insert into product (product_id, product_name)
 			(106, "napkins");
 
 select * from product;
+
+
+					-----------new lines----------------
+
+create table transactions(
+	transaction_id int,
+    amount decimal (5, 2),
+    transaction_date datetime DEFAULT NOW()
+);
+
+insert into transactions (transaction_id, amount)
+	values (3, 9.99);
+
+drop table transactions;
+
+create table transactions (
+	transaction_id int PRIMARY KEY,
+    amount DECIMAL (5, 2)
+);
+
+alter table transactions
+add constraint 
+PRIMARY KEY(transaction_id);
+
+insert into transactions
+	values (null, 9.99);
+    
+select amount 
+	from transactions
+		where transaction_id = 0003;
+
+drop table transactions;
+
+create table transactions (
+	transaction_id int PRIMARY KEY AUTO_INCREMENT,
+    amount decimal (5, 2)
+);
+
+insert into transactions (amount)
+	values (2.99);
+
+delete from transactions 
+	where transaction_id = 4;
+    
+alter table transactions
+	auto_increment = 1000;
+
+delete from transactions;
+
+insert into transactions (amount)
+	values (5.99);
+
+select * from transactions;
