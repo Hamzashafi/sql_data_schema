@@ -30,7 +30,6 @@ alter table transactions
         
 delete from transactions;
 
-select * from transactions;
 
 alter table transactions
 	auto_increment = 1000;
@@ -44,7 +43,6 @@ insert into transactions (amount, customer_id)
 delete from customers 
 	where customer_id = 3;
     
-use mydb;
 
 insert into transactions (amount, customer_id)
 	values (1.00, null);
@@ -52,7 +50,6 @@ insert into transactions (amount, customer_id)
 insert into customers (first_name, last_name)
 	values("poopy", "puff");
 
-select * from transactions;
 
 select * from product;
 
@@ -113,7 +110,6 @@ select * from
 	employees where 
 		NOT job = "Manager" AND NOT job = "engineer";
         
-select * from employees;
 
 
 select * from
