@@ -6,13 +6,11 @@ select * from employees;
 alter table employees
 modify column email varchar(100);
 
-select * from employees;
 
 alter table employees
 modify email varchar(100)
 after last_name;
 
-select * from employees;
 
 alter table employees
 drop column email;
@@ -35,7 +33,6 @@ values (2, "usman", "khan", 20.24, "2024-03-20"),
 insert into employees (employee_id, first_name, last_name)
 values (6, "jack", "reacher");
        
-select * from employees;
 
 select first_name, last_name
 from employees;
@@ -63,7 +60,6 @@ employees where employee_id != 2;
 
 use mydb;
 
-select * from employees;
 
 select * from 
 employees
