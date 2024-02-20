@@ -92,9 +92,40 @@ select * from manager;
 
 select * from projects;
 
+-- inner Join
 SELECT e.employee_name, d.department_name
 FROM employee e 
 JOIN 
 department d 
 ON 
 e.department_id = d.department_id; -- join condition in which join should happen
+
+
+-- left join = inner join + any additional records in the left table
+
+SELECT e.employee_name, d.department_name
+FROM employee e -- left table
+LEFT JOIN 
+department d -- right table 
+ON 
+e.department_id = d.department_id; -- join condition in which join should happen
+
+
+-- right join = inner join + any additional records in the right table
+
+SELECT e.employee_name, d.department_name
+FROM employee e -- left table
+RIGHT JOIN 
+department d -- right table 
+ON 
+e.department_id = d.department_id; -- join condition in which join should happen
+
+
+
+select e.employee_name, d.department_name, m.manager_name, p.project_name
+from employee e LEFT JOIN department d
+ON e.department_id = d.department_id
+JOIN manager m
+ON m.manager_id = e.manager_id
+LEFT JOIN projects p
+ON p.team_member_id = e.employee_id
