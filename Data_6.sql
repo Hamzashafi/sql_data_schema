@@ -87,3 +87,76 @@ parent.name as parent_name, parent.age as parent_age
 from family as child
 JOIN family as parent
 ON child.parent_id = parent.member_id; -- conditions on which join should happen
+
+
+                                            -----------------------------------------------
+-- JOIN two or more tables
+
+-- Create the webstore database
+CREATE DATABASE webstore;
+
+-- Switch to the webstore database
+USE webstore;
+
+-- Create the Customers table
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    country VARCHAR(50)
+);
+
+-- Create the Orders table
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    item VARCHAR(100),
+    amount DECIMAL(10, 2),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Create the Shipping table
+CREATE TABLE Shipping (
+    shipping_id INT PRIMARY KEY,
+    status VARCHAR(50),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+
+-- Insert into Customers table
+INSERT INTO Customers (customer_id, first_name, last_name, age, country)
+VALUES
+    (1, 'John', 'Doe', 30, 'USA'),
+    (2, 'Alice', 'Smith', 25, 'Canada'),
+    (3, 'Bob', 'Johnson', 35, 'UK'),
+    (4, 'Emily', 'Brown', 28, 'Australia');
+
+-- Insert into Orders table
+INSERT INTO Orders (order_id, item, amount, customer_id)
+VALUES
+    (101, 'Laptop', 1200.50, 1),
+    (102, 'Smartphone', 800.75, 2),
+    (103, 'Tablet', 400.20, 3),
+    (104, 'Headphones', 150.99, 1);
+
+-- Insert into Shipping table
+INSERT INTO Shipping (shipping_id, status, customer_id)
+VALUES
+    (201, 'Shipped', 1),
+    (202, 'Pending', 2),
+    (203, 'Delivered', 3),
+    (204, 'Processing', 4);
+    
+select * from Customers;
+
+select * from Orders;
+
+select * from shipping;
+
+SELECT Customers.first_name, Orders.item, Shipping.status
+FROM Customers
+JOIN Orders ON Customers.customer_id = Orders.customer_id
+JOIN Shipping 
+    ON Customers.customer_id = Shipping.customer_id; -- join condition on which join should happens
