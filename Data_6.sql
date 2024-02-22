@@ -204,3 +204,34 @@ SELECT C.CUSTOMER_ID , C.FIRST_NAME  , O.AMOUNT
 FROM CUSTOMERS C 
 RIGHT JOIN ORDERS O 
 ON C.CUSTOMER_ID = O.CUSTOMER_ID;
+
+
+
+
+-- full join Customers and Orders tables
+-- based on their shared customer_id columns
+-- Customers is the left table
+-- Orders is the right table
+
+-- SELECT C.FIRST_NAME, C.AGE, O.AMOUNT, O.ITEM 
+-- from CUSTOMERS C 
+-- FULL JOIN ORDERS O 
+-- ON C.CUSTOMER_ID = O.CUSTOMER_ID;
+
+SELECT C.CUSTOMER_ID , C.FIRST_NAME , O.AMOUNT 
+FROM CUSTOMERS C 
+LEFT JOIN ORDERS O ON C.CUSTOMER_ID = O.CUSTOMER_ID
+UNION
+SELECT C.CUSTOMER_ID , C.FIRST_NAME , O.AMOUNT 
+FROM CUSTOMERS C 
+RIGHT JOIN ORDERS O ON C.CUSTOMER_ID = O.CUSTOMER_ID;
+
+
+CREATE TABLE shippingbck
+AS
+SELECT * from shipping;
+
+-- BACKUP DATABASE webstore
+-- TO DISK = 'D:\my_db_backup.bak';
+
+-- mysqldump -u hamza -p webstore > "D:\my_db_backup.sql"
