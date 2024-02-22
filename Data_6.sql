@@ -90,6 +90,7 @@ ON child.parent_id = parent.member_id; -- conditions on which join should happen
 
 
                                             -----------------------------------------------
+
 -- JOIN two or more tables
 
 -- Create the webstore database
@@ -160,3 +161,46 @@ FROM Customers
 JOIN Orders ON Customers.customer_id = Orders.customer_id
 JOIN Shipping 
     ON Customers.customer_id = Shipping.customer_id; -- join condition on which join should happens
+
+
+            ----------------------- -----------------------------
+
+
+use webstore;
+
+select * from customers;
+
+select * from orders;
+
+-- join Customers and Orders tables with their matching fields customer_id
+
+SELECT C.customer_id, O.item
+FROM Customers as C
+JOIN Orders as O
+ON C.customer_id = O.customer_id;
+
+
+SELECT C.LAST_NAME , C.AGE, O.ORDER_ID , O.AMOUNT 
+from Customers as C
+JOIN Orders as O
+ON C.customer_id = O.customer_id;
+
+
+-- left join Customers and Orders tables based on their shared customer_id columns
+-- Customers is the left table
+-- Orders is the right table
+
+SELECT C.customer_id, C.first_name, O.amount
+FROM CUSTOMERS C LEFT JOIN ORDERS O 
+ON C.CUSTOMER_ID = O.CUSTOMER_ID;
+
+
+-- join Customers and Orders tables
+-- based on their shared customer_id columns
+-- Customers is the left table
+-- Orders is the right table
+
+SELECT C.CUSTOMER_ID , C.FIRST_NAME  , O.AMOUNT 
+FROM CUSTOMERS C 
+RIGHT JOIN ORDERS O 
+ON C.CUSTOMER_ID = O.CUSTOMER_ID;
