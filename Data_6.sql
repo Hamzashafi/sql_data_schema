@@ -292,3 +292,66 @@ INSERT INTO COLLEGES (college_id, college_code)
 VALUES (3, 'ARD14');
 
 SELECT * FROM COLLEGES;
+
+
+-- create index on COLLEGE TABLE
+
+CREATE Index college_index
+ON colleges(college_code);
+
+SELECT * FROM COLLEGES;
+
+SELECT GETDATE();
+
+-- current TIME METHOD
+SELECT CURRENT_TIMESTAMP();
+
+-- date difference method
+SELECT DATEDIFF(month, '2020-12-31 23:59:59', '2022-01-01 00:00:00');
+
+
+SELECT * from ORDERS O 
+
+-- Addition Operator
+SELECT item, amount, amount+200 AS total_amount
+from ORDERS O 
+
+-- Subtraction Operator
+SELECT item, amount, amount-400 AS discount_price
+from ORDERS O 
+
+
+-- remainder
+SELECT 10 % 3 AS result;
+
+-- CREATING VIEWS
+
+CREATE view us_customer AS
+SELECT first_name, last_name, age
+FROM CUSTOMERS;
+
+-- updating view
+CREATE or REPLACE view us_customer AS
+select * from CUSTOMERS 
+WHERE country = 'USA';
+
+SELECT * from US_CUSTOMER UC 
+
+select * from ORDERS O 
+
+CREATE view customer_order_details as 
+SELECT C.first_name, C.age, C.country, O.item, O.amount 
+from CUSTOMERS C 
+JOIN 
+ORDERS O 
+ON C.customer_id = O.customer_id;
+
+
+SELECT * FROM CUSTOMER_ORDER_DETAILS COD ;
+
+select * from CUSTOMERS C 
+
+-- Procedure SQL
+
+
+SHOW CREATE PROCEDURE us_customer();
