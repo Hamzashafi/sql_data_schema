@@ -235,3 +235,60 @@ SELECT * from shipping;
 -- TO DISK = 'D:\my_db_backup.bak';
 
 -- mysqldump -u hamza -p webstore > "D:\my_db_backup.sql"
+
+
+                                        ------------------------------------ 
+
+
+-- create a table with unique constraint
+CREATE TABLE Colleges (
+  college_id INT NOT NULL UNIQUE,
+  college_code VARCHAR(20) UNIQUE,
+  college_name VARCHAR(50)
+);
+
+-- insert values to Colleges table
+INSERT INTO Colleges(college_id, college_code, college_name)
+VALUES (1, "ARD12", "Star Public School"), (2, "ARD13", "Galaxy School");
+
+SELECT * from COLLEGES ;
+
+ALTER Table COLLEGES 
+DROP CONSTRAINT college_id_3;
+
+ALTER Table COLLEGES 
+ADD UNIQUE(college_id);
+
+
+-- this table doesn't have a foreign key
+CREATE TABLE Users (
+  id INT PRIMARY KEY,
+  first_name VARCHAR(40),
+  last_name VARCHAR(40),
+  age INT,
+  country VARCHAR(10)
+);
+
+-- add foreign key to buyer and seller fields
+-- foreign key references the id field of the Users table
+CREATE TABLE Transactions (
+  transaction_id INT PRIMARY KEY,
+  amount INT,
+  seller INT,
+  buyer INT,
+  CONSTRAINT fk_seller FOREIGN KEY (seller) REFERENCES Users(id),
+  CONSTRAINT fk_buyer FOREIGN KEY (buyer) REFERENCES Users(id)
+);
+
+
+
+-- ADDING CONSTRAINT ON COLLEGE TABLE COLUMN
+
+ALTER TABLE COLLEGES 
+ALTER college_name SET DEFAULT 'SIR SYED';
+
+
+INSERT INTO COLLEGES (college_id, college_code)
+VALUES (3, 'ARD14');
+
+SELECT * FROM COLLEGES;
