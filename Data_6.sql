@@ -351,7 +351,66 @@ SELECT * FROM CUSTOMER_ORDER_DETAILS COD ;
 
 select * from CUSTOMERS C 
 
--- Procedure SQL
+
+    -- Procedure SQL
+
+/* DELIMITER $$
+CREATE PROCEDURE us_customer()
+BEGIN
+    SELECT first_name, last_name, age
+    FROM Customers
+    WHERE country = 'USA';
+END $$
+DELIMITER ; */
+
+DELIMITER //
+CREATE PROCEDURE us_customer()
+/* This procedure retrieves information about US customers */
+BEGIN 
+    SELECT first_name, last_name, age
+    FROM Customers
+    WHERE country = 'USA';
+END //
+DELIMITER ;
+
+SHOW GRANTS FOR CURRENT_USER;
+
+SELECT VERSION()
 
 
-SHOW CREATE PROCEDURE us_customer();
+-- EXEC us_customer;
+
+show create procedure us_customer();
+
+CALL us_customer;
+
+
+-- Functions
+
+SELECT * FROM ORDERS O 
+
+
+SELECT SUM(amount) AS total_amount
+FROM ORDERS O 
+
+
+SELECT AVG(amount) AS Average_total
+FROM ORDERS O 
+ 
+
+SELECT CONCAT(first_name, " ", last_name) AS FULL_NAME
+FROM CUSTOMERS C 
+
+
+-- SUBQUERIES
+
+SELECT * FROM ORDERS O 
+
+SELECT item, customer_id, amount,
+	(SELECT AVG(amount) FROM ORDERS) AS Average_amount
+		FROM ORDERS
+		
+
+SELECT first_name, country, age,
+	(SELECT SUM(age) FROM CUSTOMERS) AS Age_Count
+FROM CUSTOMERS;
