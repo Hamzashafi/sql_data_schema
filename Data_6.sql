@@ -1,6 +1,6 @@
 -- FULL JOIN = Inner Join
--- + all remaining records from Left Table (returns null value for any columns fetch)
--- + all remaining records from Right Table (return null value for any columns fetch)
+-- + all remaining records from Left Table (returns a null value for any columns fetch)
+-- + all remaining records from Right Table (return a null value for any columns fetch)
 
 -- SELECT e.employee_name, d.department_name
 -- FROM employee e 
@@ -17,7 +17,7 @@ ON d.department_id = e.department_id;
 
 
 -- CROSS JOIN
--- Cross join returns cartesian product.
+-- Cross-join returns the cartesian product.
 
 SELECT e.employee_name, d.department_name
 FROM employee e 
@@ -35,8 +35,8 @@ VALUES
     (2, 'XYZ Inc', 'Los Angeles'),
     (3, '123 Industries', 'Chicago');
     
--- write a query to fetch the employee name and thier corresponding department name.
--- also make sure to display the company name and the company location corresponding to each employee.
+-- Write a query to fetch the employee name and their corresponding department name.
+-- Also, display the company name and the company location corresponding to each employee.
 
 
 select e.employee_name, d.department_name, c.company_name, c.location
@@ -80,7 +80,7 @@ VALUES
     
 select * from family;
 
--- write a query to fetch the child name and their age corresponding to their parent name and parent ages
+-- Write a query to fetch the child name and age corresponding to their parent name and parent ages
 
 select child.name as child_name, child.age as child_age,
 parent.name as parent_name, parent.age as parent_age
@@ -134,7 +134,7 @@ VALUES
     (3, 'Bob', 'Johnson', 35, 'UK'),
     (4, 'Emily', 'Brown', 28, 'Australia');
 
--- Insert into Orders table
+-- Insert into the Orders table
 INSERT INTO Orders (order_id, item, amount, customer_id)
 VALUES
     (101, 'Laptop', 1200.50, 1),
@@ -172,7 +172,7 @@ select * from customers;
 
 select * from orders;
 
--- join Customers and Orders tables with their matching fields customer_id
+-- Join Customers and Orders tables with their matching fields customer_id
 
 SELECT C.customer_id, O.item
 FROM Customers as C
@@ -195,10 +195,8 @@ FROM CUSTOMERS C LEFT JOIN ORDERS O
 ON C.CUSTOMER_ID = O.CUSTOMER_ID;
 
 
--- join Customers and Orders tables
+-- Join customers and Order tables
 -- based on their shared customer_id columns
--- Customers is the left table
--- Orders is the right table
 
 SELECT C.CUSTOMER_ID , C.FIRST_NAME  , O.AMOUNT 
 FROM CUSTOMERS C 
@@ -210,8 +208,6 @@ ON C.CUSTOMER_ID = O.CUSTOMER_ID;
 
 -- full join Customers and Orders tables
 -- based on their shared customer_id columns
--- Customers is the left table
--- Orders is the right table
 
 -- SELECT C.FIRST_NAME, C.AGE, O.AMOUNT, O.ITEM 
 -- from CUSTOMERS C 
@@ -240,7 +236,7 @@ SELECT * from shipping;
                                         ------------------------------------ 
 
 
--- create a table with unique constraint
+-- Create a table with a unique constraint
 CREATE TABLE Colleges (
   college_id INT NOT NULL UNIQUE,
   college_code VARCHAR(20) UNIQUE,
@@ -260,7 +256,7 @@ ALTER Table COLLEGES
 ADD UNIQUE(college_id);
 
 
--- this table doesn't have a foreign key
+-- This table doesn't have a foreign key
 CREATE TABLE Users (
   id INT PRIMARY KEY,
   first_name VARCHAR(40),
@@ -269,7 +265,7 @@ CREATE TABLE Users (
   country VARCHAR(10)
 );
 
--- add foreign key to buyer and seller fields
+-- Add foreign key to buyer and seller fields
 -- foreign key references the id field of the Users table
 CREATE TABLE Transactions (
   transaction_id INT PRIMARY KEY,
