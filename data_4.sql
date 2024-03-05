@@ -1,5 +1,5 @@
 -- stored procedure = is prepared SQL code that you can save 
--- it is great if there's a query that you write often 
+-- It is great if there's a query that you write often 
 -- reduces network traffic 
 -- increases performance
 -- secure, admin can grant permission to use
@@ -8,12 +8,12 @@
 
 -- call get_customers();
 
-delimiter $$
+/* delimiter $$
 create procedure get_customers()
 begin
 	select * from customers;
 end $$
-delimiter ;
+delimiter ; */
 
 delimiter $$
 create procedure find_customer(IN id INT)
@@ -23,13 +23,13 @@ begin
 end $$
 delimiter ;
 
-delimiter $$
+/* delimiter $$
 create procedure find_customer(IN f_name varchar(50), l_name varchar(50))
 begin
 	select * from customers
 		where first_name = f_name AND last_name = l_name;
 end $$
-delimiter ;
+delimiter ; */
 
 call find_customer("kungfu", "panda");
 
@@ -37,12 +37,10 @@ call find_customer(5);
 
 drop procedure find_customer;
 
-select * from transactions;
 
-
--- TRIGGERS =  when an event happens, do something 
+-- TRIGGERS =  When an event happens, do something 
 -- ex (INSERT, UPDATE, DELETE)
--- check data, handles errors, auditing tables
+-- check data, handle errors, audit tables
 
 alter table employees
 add column salary decimal (10, 2) 
@@ -77,7 +75,6 @@ set NEW.salary = (NEW.hourly_pay * 2080);
 insert into employees
 values (6, "deadpool", "wolverine", 10.00, null, "janitor", "2023-04-12", 5);
 
-select * from employees;
 
 create table expenses (
 	expense_id int primary key,
@@ -108,8 +105,6 @@ update expenses
 set expense_total = expense_total + NEW.salary
 where expense_name = "salaries";
 
-select * from employees;
-
 create trigger after_salary_update
 after update on employees
 for each row
@@ -123,5 +118,3 @@ where employee_id = 6;
 update employees
 set hourly_pay = 100
 where employee_id = 1;
-
-select * from expenses;
