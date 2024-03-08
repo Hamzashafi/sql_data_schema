@@ -1,7 +1,6 @@
 alter table employees
 rename column phone_number to email;
 
-select * from employees;
 
 alter table employees
 modify column email varchar(100);
@@ -37,15 +36,10 @@ values (6, "jack", "reacher");
 select first_name, last_name
 from employees;
 
-select last_name, first_name
-from employees;
 
 select * from employees
 where employee_id = 1;
 
-select *
-from employees
-where first_name = "jack";
 
 select *
 from employees
@@ -57,8 +51,6 @@ where hire_date <= "2023-03-15";
 
 select * from
 employees where employee_id != 2;
-
-use mydb;
 
 
 select * from 
@@ -92,5 +84,3 @@ commit;
 delete from employees;
 
 rollback;
-
-select * from employees;
