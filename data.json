@@ -287,3 +287,132 @@
   "version": 2,
   "weekStart": ""
 }
+
+
+                                              -------------------------
+
+
+
+{
+  "title": "Server Monitoring",
+  "description": "insights into web server health",
+  "rows": [
+    {
+      "title": "Overview",
+      "height": "25%",
+      "panels": [
+        {
+          "title": "CPU Usage",
+          "type": "gauge",
+          "span": 6,
+          "datasource": "prometheus",
+          "targets": [
+            {
+              "target": "node_load1"
+            }
+          ],
+          
+            "min": 0,
+            "max": 1,
+            "prefix": ""
+          }
+        },
+        {
+          "title": "Memory Usage",
+          "type": "singlestat",
+          "span": 6,
+          "datasource": "prometheus",
+          "targets": [
+            {
+              "target": "node_memory_MemFree_bytes / node_memory_MemTotal_bytes"
+            }
+          ],
+          "format": "percentunit"
+        }
+      ]
+    },
+    {
+      "title": "Request Traffic",
+      "height": "25%",
+      "panels": [
+        {
+          "title": "HTTP Requests",
+          "type": "graph",
+          "span": 12,
+          "datasource": "prometheus",
+          "targets": [
+            {
+              "target": "http_requests_total{status='2xx'}",
+              "legendFormat": "Successes"
+            },
+            {
+              "target": "http_requests_total{status!='2xx'}",
+              "legendFormat": "Errors"
+            }
+          ],
+          "seriesOverrides": [
+            {
+              "$$hashKey": "object:62"
+              )
+                {
+                  "conditions": "A > 100",
+                  "evalMath": true,
+                  "for": "5m",
+                  "message": "High Error Rate Detected!"
+                }
+              ],
+              "target": "http_requests_total{status!='2xx'}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Response Times",
+      "height": "25%",
+      "panels": [
+        {
+          "title": "Average Response Time",
+          "type": "graph",
+          "span": 12,
+          "datasource": "prometheus",
+          "targets": [
+            {
+              "target": "http_request_duration_seconds{status='2xx'}"
+            }
+          ],
+          "yaxes": [
+            {
+              "min": 0,
+              "format": "s" // Format seconds
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Server Logs (Last 10 lines)",
+      "height": "25%",
+      "panels": [
+        {
+          "title": "Server Logs",
+          "type": "logs",
+          "span": 12,
+          "datasource": "loki",
+          "queries": [
+            {
+              "logLabel": "server_log"
+            }
+          ],
+          "limit": 10
+        }
+      ]
+    }
+  ],
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  }
+}
