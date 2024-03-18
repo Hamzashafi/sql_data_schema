@@ -190,3 +190,61 @@
     "list": []
   }
 }
+
+                                              --------------------------------
+
+
+
+# web servers
+hostgroup "Web Servers" {
+  members = ["webserver1", "webserver2"]
+}
+
+# web server template
+host "Web Server Template" {
+  groups = ["Web Servers"]
+  vars.check_interval = 60s  # Check every minute
+
+  # Service to check HTTP status code with email notification
+  service "HTTP Status" {
+    check_command = http
+    vars.url = "http://localhost/3006"
+    http_status_codes = [200-399]  # Expect success codes (2xx, 3xx)
+    notifications = [
+      "webserver_admin@example.com"  # Notify via email on failure
+    ]
+    notification_options = {
+      # Define notification escalation options (e.g., retry after X minutes)
+      "timeperiod" = "24x7"  # Always send notifications
+      "retry" = 3  # Retry notification 3 times
+      "retry_interval" = 10m  # Retry after 10 minutes
+    }
+  }
+
+  # Service to check response time and store performance data
+  service "HTTP Response Time" {
+    check_command = http
+    vars.url = "http://localhost/3006"
+    http_status_codes = [200]  # Expect only success code (200)
+    perfdata_file = http_response_time.perfdata  # Store performance data
+  }
+
+  # Additional service to check for root disk space availability
+  service "Root Disk Space" {
+    check_command = check_disk
+    vars.mount_point = "/"  # Check root disk space
+    vars.warning_threshold = 10  # Warn if free space falls below 10%
+    vars.critical_threshold = 5   # Critical if free space falls below 5%
+  }
+}
+
+# Define specific web servers inheriting the template with URL overrides
+host "webserver1" {
+  inherits "Web Server Template"
+  vars.url = " "
+}
+
+host "webserver2" {
+  inherits "Web Server Template"
+  vars.url = " "
+}
