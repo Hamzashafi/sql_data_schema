@@ -28,3 +28,114 @@ LOCK TABLES `director_activity_log` WRITE;
 
 ALTER TABLE `director_activity_log` ENABLE KEYS ;
 UNLOCK TABLES;
+
+
+                                              -------------------------------------------------------
+
+{
+  "id": 16,
+  "gridPos": {
+    "x": 0,
+    "y": 8,
+    "w": 12,
+    "h": 8
+  },
+  "type": "bargauge",
+  "title": "Value Stream: Cars ",
+  "datasource": {
+    "uid": "FOyCtpJIk",
+    "type": "mysql"
+  },
+  "pluginVersion": "9.0.0",
+  "targets": [
+    {
+      "datasource": {
+        "uid": "FOyCtpJIk",
+        "type": "mysql"
+      },
+      "refId": "A",
+      "hide": false,
+      "format": "table",
+      "timeColumn": "age",
+      "metricColumn": "first_name",
+      "group": [
+        {
+          "type": "column",
+          "params": [
+            "first_name"
+          ]
+        }
+      ],
+      "where": [
+        {
+          "type": "macro",
+          "name": "$__unixEpochFilter",
+          "params": []
+        }
+      ],
+      "select": [
+        [
+          {
+            "type": "column",
+            "params": [
+              "customer_id"
+            ]
+          },
+          {
+            "type": "aggregate",
+            "params": [
+              "avg"
+            ]
+          },
+          {
+            "type": "alias",
+            "params": [
+              "customer_id"
+            ]
+          }
+        ]
+      ],
+      "rawQuery": true,
+      "rawSql": "SELECT * FROM cars ORDER BY make, value ASC;",
+      "table": "customers",
+      "timeColumnType": "int"
+    }
+  ],
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "sum"
+      ],
+      "fields": ""
+    },
+    "orientation": "auto",
+    "displayMode": "gradient",
+    "showUnfilled": true,
+    "minVizWidth": 0,
+    "minVizHeight": 10
+  },
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "color": {
+        "mode": "continuous-BlPu"
+      },
+      "unit": "conngm3"
+    },
+    "overrides": []
+  }
+}
