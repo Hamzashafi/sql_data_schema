@@ -1,112 +1,63 @@
 {
-  "title": "Modified Dashboard",  # Changed title
+  "title": "Server Performance Monitoring",  # title
   "editable": true,
   "time": {
-    "from": "now-1d",  # Changed time range 
+    "from": "now-1d",
     "to": "now"
   },
-  "panels": [
-    {
-      "title": "Resource Utilization",  # Changed PT
-      "datasource": {
-        "type": "mysql",
-        "uid": "a7f5f69d-decf-4f7e-b04f-a8d183147083"
-      },
-      "type": "graph",  # Changed panel type to graph
-      "options": {
-        "colorMode": "series",  
-        "graphMode": "line",  # Changed graph mode to line
-        "reduceOptions": {
-          "calcs": ["avg"]  
-        }
-      },
-      "targets": [
-        {
-          "target": "SELECT avg(cpu_usage) FROM servers GROUP BY server_name",  # Changed target query to calculate average CPU usage
-          "refId": "A"
-        }
-      ],
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 0
+  "templating": {
+    "list": [
+      {
+        "name": "server",
+        "type": "query",
+        "datasource": "mysql",
+        "query": "SHOW TABLES LIKE 'servers'"  # Example query to get server names
       }
-    },
-    {
-      "title": "Top 5 Memory Consumers", 
-      "datasource": {
-        "type": "mysql",
-        "uid": "a7f5f69d-decf-4f7e-b04f-a8d183147083"
-      },
-      "type": "table",  
-      "options": {
-        "sort": {
-          "desc": true, 
-          "field": 1  # Sort by second column (index 1)
-        }
-      },
-      "targets": [
-        {
-          "target": "SELECT process_name, SUM(memory_usage) AS memory_used FROM processes GROUP BY process_name ORDER BY memory_used DESC LIMIT 5",  # Changed target query to sum memory usage
-          "refId": "A"
-        }
-      ],
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 8
-      }
-    }
-  ]
-}
-
-
-                                              -------------------------
-
-
-
-{
-  "title": "Server Monitoring",
-  "description": "insights into web server health",
+    ]
+  },
   "rows": [
     {
-      "title": "Overview",
+      "title": "Resource Utilization",
       "height": "25%",
       "panels": [
         {
           "title": "CPU Usage",
-          "type": "gauge",
+          "type": "graph",
           "span": 6,
-          "datasource": "prometheus",
+          "datasource": "mysql",
           "targets": [
             {
-              "target": "node_load1"
+              "target": "SELECT avg(cpu_usage) FROM servers WHERE server_name = $server GROUP BY time(1m)",  # template variable for server selection
+              "refId": "A"
             }
           ],
-          
-            "min": 0,
-            "max": 1,
-            "prefix": ""
+          "options": {
+            "colorMode": "series",
+            "graphMode": "line",
+            "reduceOptions": {
+              "calcs": ["avg"]
+            }
           }
         },
         {
           "title": "Memory Usage",
-          "type": "singlestat",
+          "type": "gauge",
           "span": 6,
-          "datasource": "prometheus",
+          "datasource": "mysql",
           "targets": [
             {
-              "target": "node_memory_MemFree_bytes / node_memory_MemTotal_bytes"
+              "target": "SELECT avg(memory_usage) FROM servers WHERE server_name = $server GROUP BY time(1m)",
+              "refId": "B"
             }
           ],
-          "format": "percentunit"
+          "min": 0,
+          "max": 100,
+          "prefix": "%"
         }
       ]
     },
     {
-      "title": "Request Traffic",
+      "title": "Request Traffic (Past Hour)",
       "height": "25%",
       "panels": [
         {
@@ -116,81 +67,32 @@
           "datasource": "prometheus",
           "targets": [
             {
-              "target": "http_requests_total{status='2xx'}",
-              "legendFormat": "Successes"
-            },
-            {
-              "target": "http_requests_total{status!='2xx'}",
-              "legendFormat": "Errors"
+              "target": "http_requests_total{server='$server'}",  # Use template variable for server selection
+              "legendFormat": "{{ server }} server"
             }
           ],
-          "seriesOverrides": [
-            {
-              "$$hashKey": "object:62"
-              )
-                {
-                  "conditions": "A > 100",
-                  "evalMath": true,
-                  "for": "5m",
-                  "message": "High Error Rate Detected!"
-                }
-              ],
-              "target": "http_requests_total{status!='2xx'}"
+          "limit": 10,
+          "options": {
+            "timepicker": {
+              "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "6h", "12h", "1d", "7d", "30d"]
             }
-          ]
+          }
         }
       ]
     },
     {
-      "title": "Response Times",
+      "title": "Alerts",
       "height": "25%",
       "panels": [
         {
-          "title": "Average Response Time",
-          "type": "graph",
+          "title": "Resource Threshold Alerts",
+          "type": "alertlist",
           "span": 12,
-          "datasource": "prometheus",
-          "targets": [
-            {
-              "target": "http_request_duration_seconds{status='2xx'}"
-            }
-          ],
-          "yaxes": [
-            {
-              "min": 0,
-              "format": "s" // Format seconds
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "Server Logs (Last 10 lines)",
-      "height": "25%",
-      "panels": [
-        {
-          "title": "Server Logs",
-          "type": "logs",
-          "span": 12,
-          "datasource": "loki",
-          "queries": [
-            {
-              "logLabel": "server_log"
-            }
-          ],
-          "limit": 10
-        }
-      ]
-    }
-  ],
-  "templating": {
-    "list": []
-  },
-  "annotations": {
-    "list": []
-  }
-}
+          "datasource": null,  # Needs configuration for your alerting system
+          "
 
+
+    
                                               --------------------------------
 
 
