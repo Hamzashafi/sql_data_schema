@@ -1,34 +1,94 @@
 -- Table structure for table `director_activity_log`
 --
 
-DROP TABLE IF EXISTS `director_activity_log`;
-CREATE TABLE `director_activity_log` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `object_type` varchar(64) NOT NULL,
-  `object_name` varchar(255) NOT NULL,
-  `action_name` enum('create','delete','modify') NOT NULL,
-  `old_properties` text DEFAULT NULL COMMENT 'Property hash, JSON',
-  `new_properties` text DEFAULT NULL COMMENT 'Property hash, JSON',
-  `author` varchar(64) NOT NULL,
-  `change_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `checksum` varbinary(20) NOT NULL,
-  `parent_checksum` varbinary(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `sort_idx` (`change_time`),
-  KEY `search_idx` (`object_name`),
-  KEY `search_idx2` (`object_type`(32),`object_name`(64),`change_time`),
-  KEY `search_author` (`author`),
-  KEY `checksum` (`checksum`)
-) 
---
--- Dumping data for table `director_activity_log`
---
-
-LOCK TABLES `director_activity_log` WRITE;
-
-ALTER TABLE `director_activity_log` ENABLE KEYS ;
-UNLOCK TABLES;
-
+{
+  "dashboard": {
+    "id": null,
+    "uid": "eixpCcDKz",
+    "title": "Director Activity Log Dashboard",
+    "tags": [],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 0,
+    "refresh": "10s",
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "id": 1,
+        "title": "Activity Log Overview",
+        "type": "table",
+        "datasource": "YourDataSource",
+        "targets": [
+          {
+            "refId": "A",
+            "rawSql": "SELECT * FROM director_activity_log"
+          }
+        ],
+        "styles": [
+          {
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "type": "date"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "stringToUpperCase",
+            "options": {}
+          }
+        ],
+        "pageSize": null,
+        "scroll": true,
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": true
+        }
+      }
+    ],
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "annotations": {
+      "list": []
+    },
+    "refresh": "1m",
+    "schemaVersion": 26,
+    "version": 8
+  },
+  "folderId": 0,
+  "overwrite": false
+}
 
                                               -------------------------------------------------------
 
