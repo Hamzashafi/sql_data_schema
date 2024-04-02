@@ -1,6 +1,4 @@
 -- Table structure for table `director_activity_log`
---
-
 {
   "dashboard": {
     "id": null,
@@ -90,7 +88,7 @@
   "overwrite": false
 }
 
-                                              -------------------------------------------------------
+                                              ---------------------
 
 {
   "id": 16,
