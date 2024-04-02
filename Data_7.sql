@@ -74,3 +74,73 @@ SELECT c.first_name, o.item, o.amount
 FROM Customers c
 INNER JOIN Orders o ON c.customer_id = o.customer_id
 WHERE o.amount > 1000;
+
+
+                                                -----------------------------
+
+                                                      Filtering Orders:
+SELECT item, amount
+FROM ORDERS O
+WHERE amount > 500;  -- Filter orders with amount above 500
+
+                                                    Grouping and Aggregation:
+SELECT item, SUM(amount) AS total_sales
+FROM ORDERS O
+GROUP BY item;  -- Group orders by item and calculate total sales per item
+
+                                                        Parametric Views:
+CREATE VIEW recent_orders AS
+SELECT *
+FROM ORDERS O
+WHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK);  -- Filter last week's orders
+
+-- Usage:
+SELECT * FROM recent_orders WHERE item = 'Headphones';  -- Filter by item within the view
+
+                                                      Complex Joins in Views:
+CREATE VIEW customer_orders AS
+SELECT C.first_name, C.last_name, O.item, O.amount, S.status
+FROM CUSTOMERS C
+JOIN ORDERS O ON C.customer_id = O.customer_id
+JOIN SHIPPING S ON O.order_id = S.order_id;  -- Join tables
+
+-- Usage:
+SELECT * FROM customer_orders WHERE status = 'Shipped';  -- Filter by shipping status
+
+                                                                Error Handling:
+DELIMITER //
+CREATE PROCEDURE update_customer_age(customer_id INT, new_age INT)
+/* Updates customer age with error handling */
+BEGIN
+  DECLARE current_age INT;
+  
+  SELECT age INTO current_age FROM CUSTOMERS WHERE customer_id = customer_id;
+  
+  IF current_age IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE = 'Customer not found';
+  ELSE
+    UPDATE CUSTOMERS SET age = new_age WHERE customer_id = customer_id;
+  END IF;
+END //
+DELIMITER ;
+
+                                                  Input Parameters:
+DELIMITER //
+CREATE PROCEDURE get_customer_by_id(customer_id INT)
+/* Retrieves customer details based on ID */
+BEGIN
+  SELECT * FROM CUSTOMERS WHERE customer_id = customer_id;
+END //
+DELIMITER ;
+
+-- Usage:
+CALL get_customer_by_id(2);  -- Retrieve customer with ID 2
+
+
+                                                  Date and Time Functions:
+SELECT item, amount,
+  CASE WHEN amount > 1000 THEN 'High'
+       WHEN amount > 500 THEN 'Medium'
+       ELSE 'Low'
+  END AS price_category
+FROM ORDERS O;
