@@ -144,3 +144,52 @@ SELECT item, amount,
        ELSE 'Low'
   END AS price_category
 FROM ORDERS O;
+
+
+                                                    --------------------------
+
+
+                                                        Error Handling:
+DELIMITER //
+CREATE PROCEDURE get_cars_by_year(
+    IN year_filter INT
+)
+BEGIN
+  SELECT * FROM cars WHERE `year` = year_filter ORDER BY make, value DESC;
+  
+  IF ROW_COUNT() = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE = 'No cars found for year ' || year_filter;
+  END IF;
+END //
+DELIMITER ;
+
+                                                            Output Parameters:
+DELIMITER //
+CREATE PROCEDURE get_car_count(
+    OUT total_count INT
+)
+BEGIN
+  SELECT COUNT(*) INTO total_count FROM cars;
+END //
+DELIMITER ;
+
+DECLARE car_count INT;
+CALL get_car_count(@car_count);
+SELECT 'Total cars:', car_count;  -- Use output parameter in a statement
+
+                                                              Window Functions:
+SELECT make, model, value,
+  RANK() OVER (ORDER BY value DESC) AS value_rank
+FROM cars;  -- Rank cars based on value (highest first)
+
+                                                          Subqueries with Joins:
+SELECT c.make, c.model, c.value,
+  (SELECT AVG(value) FROM cars f WHERE f.make = c.make) AS average_make_value
+FROM cars c;  -- Get average value for each car's make
+
+                                                              Boolean Expressions:
+SELECT * FROM cars
+WHERE year >= 2019 AND (make = 'Porsche' OR make = 'Ferrari');  -- Filter cars based on year and make
+
+                                                                      Explain Plan Analysis:
+EXPLAIN SELECT COUNT(DISTINCT value)  FROM CARS;  -- Analyze query performance
