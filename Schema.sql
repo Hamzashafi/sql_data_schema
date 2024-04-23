@@ -118,3 +118,66 @@ select * from
     
 select * from employees
 	where job IN ("cashier", "cook", "janitor");
+
+
+						-----------------------------
+
+
+--  JOIN with filtering and aggregation:
+
+SELECT c.first_name, c.country, o.item, SUM(o.amount) AS total_spent
+FROM CUSTOMERS c
+INNER JOIN ORDERS o ON c.customer_id = o.customer_id
+INNER JOIN SHIPPING s ON o.order_id = s.order_id
+WHERE s.status = 'Delivered' AND YEAR(o.order_date) = 2023
+GROUP BY c.first_name, c.country, o.item
+ORDER BY total_spent DESC;
+
+-- Subquery with window function and filtering:
+
+WITH top_sellers AS (
+  SELECT customer_id, SUM(amount) AS total_sales
+  FROM ORDERS
+  GROUP BY customer_id
+  ORDER BY total_sales DESC
+  LIMIT 10
+)
+SELECT c.first_name, c.last_name, ts.total_sales
+FROM CUSTOMERS c
+INNER JOIN top_sellers ts ON c.customer_id = ts.customer_id;
+
+-- User-defined function with error handling:
+
+DELIMITER //
+CREATE FUNCTION calculate_age(birth_date DATE)
+RETURNS INT
+BEGIN
+  DECLARE age INT;
+  SET age = FLOOR(DATEDIFF(CURDATE(), birth_date) / 365.25);
+  
+  IF age < 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE = 'Invalid birth date';
+  END IF;
+  
+  RETURN age;
+END //
+DELIMITER ;
+
+SELECT first_name, last_name, calculate_age(birth_date) AS age
+FROM CUSTOMERS;
+
+-- Common Table Expression (CTE) for recursive data processing:
+
+WITH employee_hierarchy (employee_id, manager_id, level) AS (
+  SELECT id, manager_id, 1 AS level
+  FROM EMPLOYEES
+  WHERE manager_id IS NULL
+  UNION ALL
+  SELECT e.id, e.manager_id, h.level + 1
+  FROM EMPLOYEES e
+  INNER JOIN employee_hierarchy h ON e.manager_id = h.employee_id
+)
+SELECT e.first_name, e.last_name, h.level
+FROM EMPLOYEES e
+INNER JOIN employee_hierarchy h ON e.id = h.employee_id
+ORDER BY h.level;
