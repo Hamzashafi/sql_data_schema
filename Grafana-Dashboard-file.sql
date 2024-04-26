@@ -197,3 +197,124 @@
     "overrides": []
   }
 }
+
+
+                                                      -------------------
+
+                                                query data about flights
+{
+  "annotations": {
+    "list": []
+  },
+  "dashboard": {
+    "rows": [
+      {
+        "panels": [
+          {
+            "title": "Flights by Departure Airport",
+            "type": "graph",
+            "span": 4,
+            "targets": [
+              {
+                "alias": "New York (JFK)",
+                "expr": "flights{airport='JFK'}",
+                "refId": "A",
+                "legendFormat": "{{ airport }}",
+                "metric": "count"
+              },
+              {
+                "alias": "Los Angeles (LAX)",
+                "expr": "flights{airport='LAX'}",
+                "refId": "B",
+                "legendFormat": "{{ airport }}",
+                "metric": "count"
+              },
+              {
+                "alias": "Chicago (ORD)",
+                "expr": "flights{airport='ORD'}",
+                "refId": "C",
+                "legendFormat": "{{ airport }}",
+                "metric": "count"
+              }
+            ],
+            "xaxis": {
+              "show": true,
+              "mode": "time",
+              "name": "Time"
+            },
+            "yaxis": {
+              "show": true,
+              "label": "Number of Flights",
+              "mode": "number"
+            }
+          },
+          {
+            "title": "Average Flight Delay by Destination",
+            "type": "gauge",
+            "span": 4,
+            "targets": [
+              {
+                "expr": "avg(delay_minutes{destination='Miami'})",
+                "refId": "A",
+                "displayName": "Miami (MIA)"
+              },
+              {
+                "expr": "avg(delay_minutes{destination='San Francisco'})",
+                "refId": "B",
+                "displayName": "San Francisco (SFO)"
+              },
+              {
+                "expr": "avg(delay_minutes{destination='Seattle'})",
+                "refId": "C",
+                "displayName": "Seattle (SEA)"
+              }
+            ],
+            "gauge": {
+              "minValue": 0,
+              "maxValue": 120,
+              "showNeedle": true,
+              "maxValueColor": "red",
+              "minValueColor": "green"
+            },
+            "valueFontSize": 30
+          }
+        ]
+      },
+      {
+        "panels": [
+          {
+            "title": "Passenger Count by Booking Class",
+            "type": "pie",
+            "span": 8,
+            "targets": [
+              {
+                "expr": "sum(passengers{class='Economy'})",
+                "refId": "A",
+                "legendFormat": "Economy"
+              },
+              {
+                "expr": "sum(passengers{class='Business'})",
+                "refId": "B",
+                "legendFormat": "Business"
+              },
+              {
+                "expr": "sum(passengers{class='First'})",
+                "refId": "C",
+                "legendFormat": "First"
+              }
+            ],
+            "legend": {
+              "sort": "desc",
+              "side": "right"
+            }
+          }
+        ]
+      }
+    ],
+    "title": "Flight Statistics Dashboard (Intermediate Level)"
+  },
+  "templating": {
+    "list": []
+  },
+  "variables": []
+}
