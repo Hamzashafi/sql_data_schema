@@ -318,3 +318,110 @@
   },
   "variables": []
 }
+
+                                                  ------------------
+                                       Query data about Server health and application performance
+
+{
+  "annotations": {
+    "list": []
+  },
+  "dashboard": {
+    "rows": [
+      {
+        "panels": [
+          {
+            "title": "Server Health Overview",
+            "type": "singlestat",
+            "span": 4,
+            "targets": [
+              {
+                "expr": "avg(uptime{server!='db-replica'})",
+                "refId": "A",
+                "metric": "avg"
+              }
+            ],
+            "valueFontSize": 50,
+            "valueName": "Average Server Uptime",
+            "gauge": {
+              "minValue": 0,
+              "maxValue": 86400,
+              "showNeedle": true,
+              "maxValueColor": "red",
+              "minValueColor": "green"
+            }
+          },
+          {
+            "title": "CPU Usage by Server Group",
+            "type": "bar",
+            "span": 8,
+            "stack": false,
+            "targets": [
+              {
+                "expr": "avg(cpu_usage{server_group='web'})",
+                "refId": "A",
+                "legendFormat": "Web Servers"
+              },
+              {
+                "expr": "avg(cpu_usage{server_group='app'})",
+                "refId": "B",
+                "legendFormat": "App Servers"
+              },
+              {
+                "expr": "avg(cpu_usage{server_group='db'})",
+                "refId": "C",
+                "legendFormat": "Database Server"
+              }
+            ],
+            "xaxis": {
+              "show": true,
+              "mode": "short",
+              "name": "Server Group"
+            },
+            "yaxis": {
+              "show": true,
+              "label": "CPU Usage (%)",
+              "mode": "percent"
+            }
+          }
+        ]
+      },
+      {
+        "panels": [
+          {
+            "title": "API Request Latency Distribution",
+            "type": "histogram",
+            "span": 8,
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, api_request_latency{endpoint='/orders'})",
+                "refId": "A",
+                "legendFormat": "95th Percentile"
+              },
+              {
+                "expr": "histogram_quantile(0.5, api_request_latency{endpoint='/orders'})",
+                "refId": "B",
+                "legendFormat": "Median"
+              }
+            ],
+            "xaxis": {
+              "show": true,
+              "mode": "time",
+              "name": "Time"
+            },
+            "yaxis": {
+              "show": true,
+              "label": "Latency (ms)",
+              "mode": "number"
+            }
+          }
+        ]
+      }
+    ],
+    "title": "Server Monitoring Dashboard (Intermediate Level)"
+  },
+  "templating": {
+    "list": []
+  },
+  "variables": []
+}
