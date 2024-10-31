@@ -73,3 +73,84 @@
     ]
   }
 }
+
+                                  -------------------------------------- Application Performance Monitoring Dashboard ----------------------------------------------
+
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Response Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(response_time)"
+          }
+        ]
+      },
+      {
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(error_rate)"
+          }
+        ]
+      },
+      {
+        "title": "Top 5 Slowest Endpoints",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(5, avg(response_time) by (endpoint))"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
+                      ----------------------------- Cloud Infrastructure Monitoring Dashboard ------------------------------
+
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Instance CPU Utilization",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(instance_cpu_usage{instance_type=\"m5.large\"})"
+          },
+          {
+            "expr": "avg(instance_cpu_usage{instance_type=\"t2.micro\"})"
+          }
+        ]
+      },
+      {
+        "title": "Disk Space Usage",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(disk_used_percent)"
+          }
+        ]
+      },
+      {
+        "title": "Network In/Out",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(network_in_bytes)"
+          },
+          {
+            "expr": "sum(network_out_bytes)"
+          }
+        ]
+      }
+    ]
+  }
+}
