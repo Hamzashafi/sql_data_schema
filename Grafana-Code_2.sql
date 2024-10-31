@@ -154,3 +154,44 @@
     ]
   }
 }
+
+
+                            ------------------------------ IoT Device Monitoring Dashboard ---------------------------
+
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Device Temperature",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(device_temperature{device_id=\"device1\"})"
+          },
+          {
+            "expr": "avg(device_temperature{device_id=\"device2\"})"
+          }
+        ]
+      },
+      {
+        "title": "Device Battery Level",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(device_battery_level)"
+          }
+        ]
+      },
+      {
+        "title": "Device Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(device_error_rate)"
+          }
+        ]
+      }
+    ]
+  }
+}
