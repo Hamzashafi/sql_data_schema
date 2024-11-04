@@ -195,3 +195,76 @@
     ]
   }
 }
+
+
+                                            ----------------------------------- Financial Monitoring Dashboard --------------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Daily Revenue",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(revenue)"
+          }
+        ]
+      },
+      {
+        "title": "Customer Acquisition Cost (CAC)",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(cac)"
+          }
+        ]
+      },
+      {
+        "title": "Customer Lifetime Value (CLTV)",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(cltv)"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+                    ------------------------------ E-commerce Monitoring Dashboard ----------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Sales Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(sales_amount)"
+          }
+        ]
+      },
+      {
+        "title": "Top 5 Products by Sales",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(5, sum(sales_amount) by (product_name))"
+          }
+        ]
+      },
+      {
+        "title": "Customer Conversion Rate",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(conversion_rate)"
+          }
+        ]
+      }
+    ]
+  }
+}
