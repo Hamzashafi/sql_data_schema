@@ -268,3 +268,75 @@
     ]
   }
 }
+
+                  ---------------------- IT Help Desk Monitoring Dashboard ----------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Incident Tickets Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "count(incident_tickets)"
+          }
+        ]
+      },
+      {
+        "title": "Top 5 Incident Categories",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(5, count(incident_tickets) by (incident_category))"
+          }
+        ]
+      },
+      {
+        "title": "Average Incident Resolution Time",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(incident_resolution_time)"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+                            ------------------------------------- Manufacturing Plant Monitoring Dashboard ----------------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Machine Uptime",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(machine_uptime)"
+          }
+        ]
+      },
+      {
+        "title": "Product Defects",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(product_defects)"
+          }
+        ]
+      },
+      {
+        "title": "Energy Consumption",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(energy_consumption)"
+          }
+        ]
+      }
+    ]
+  }
+}
