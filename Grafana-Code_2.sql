@@ -340,3 +340,77 @@
     ]
   }
 }
+                                    -------------------------------------------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Login Failures",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(failed_login_attempts)"
+          }
+        ]
+      },
+      {
+        "title": "Security Alerts",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "security_alerts"
+          }
+        ]
+      },
+      {
+        "title": "Malware Infections",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "count(malware_infections)"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+                                      ------------------------------------------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties
+    "panels": [
+      {
+        "title": "Temperature and Humidity",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(temperature)"
+          },
+          {
+            "expr": "avg(humidity)"
+          }
+        ]
+      },
+      {
+        "title": "Air Quality Index (AQI)",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(aqi)"
+          }
+        ]
+      },
+      {
+        "title": "Noise Level",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(noise_level)"
+          }
+        ]
+      }
+    ]
+  }
+}
