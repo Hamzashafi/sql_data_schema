@@ -414,3 +414,39 @@
     ]
   }
 }
+
+                                        -------------------------------------------------------------------
+{
+  "dashboard": {
+    // ... other dashboard properties (Supply)
+    "panels": [
+      {
+        "title": "Inventory Levels",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "avg(inventory_level)"
+          }
+        ]
+      },
+      {
+        "title": "Order Fulfillment Time",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "avg(order_fulfillment_time)"
+          }
+        ]
+      },
+      {
+        "title": "Shipping Delays",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(shipping_delays)"
+          }
+        ]
+      }
+    ]
+  }
+}
