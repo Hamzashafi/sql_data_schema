@@ -450,3 +450,57 @@
     ]
   }
 }
+
+                                              ----------------------------------------------------------------------
+{
+  "dashboard": {
+  // ...... (Network)
+    "id": null,
+    "uid": "network_monitoring_dashboard",
+    "title": "Network Monitoring Dashboard",
+    "tags": ["network", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Network Traffic",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(node_network_receive_bytes_total{instance=\"server1:9100\"}[$__interval]))",
+            "legendFormat": "Server 1 Inbound"
+          },
+          {
+            "expr": "sum(rate(node_network_transmit_bytes_total{instance=\"server1:9100\"}[$__interval]))",
+            "legendFormat": "Server 1 Outbound"
+          }
+        ]
+      },
+      {
+        "title": "Server CPU Usage",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(node_cpu_seconds_total{mode=\"system\"}{instance=\"server1:9100\"})"
+          }
+        ]
+      },
+      {
+        "title": "Disk Usage",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "node_filesystem_size_bytes{fstype=\"ext4\"} - node_filesystem_free_bytes{fstype=\"ext4\"}"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
