@@ -504,3 +504,63 @@
   "folderId": 0,
   "overwrite": false
 }
+
+                                                  --------------------------------------------------------------
+
+{
+  "dashboard": { // ........... SYSTEM
+    "id": null,
+    "uid": "system_health_dashboard",
+    "title": "System Health Dashboard",
+    "tags": ["system", "health"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "System Load",
+        "type": "graph",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "system",
+            "field": "load1"
+          }
+        ]
+      },
+      {
+        "title": "Memory Usage",
+        "type": "gauge",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "system",
+            "field": "memory_used_percent"
+          }
+        ]
+      },
+      {
+        "title": "Disk I/O",
+        "type": "table",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "disk_io",
+            "field": "disk_read_bytes_per_second"
+          },
+          {
+            "refId": "B",
+            "measurement": "disk_io",
+            "field": "disk_write_bytes_per_second"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
