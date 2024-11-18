@@ -564,3 +564,77 @@
   "folderId": 0,
   "overwrite": false
 }
+
+                                              -------------------------------------------------------
+{
+  "dashboard": {
+    "id": null,
+    "uid": "security_monitoring_dashboard",
+    "title": "Security Monitoring Dashboard",
+    "tags": ["security", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Failed Login Attempts",
+        "type": "graph",
+        "datasource": "Elasticsearch",
+        "targets": [
+          {
+            "refId": "A",
+            "metrics": [
+              [
+                "count",
+                "failed_login_attempts"
+              ]
+            ],
+            "groupBy": [
+              {
+                "type": "time",
+                "params": ["$__interval"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Security Alerts",
+        "type": "table",
+        "datasource": "Elasticsearch",
+        "targets": [
+          {
+            "refId": "A",
+            "metrics": [
+              [
+                "count",
+                "security_alerts"
+              ]
+            ],
+            "groupBy": [
+              {
+                "type": "terms",
+                "params": ["alert_type"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Vulnerability Scans",
+        "type": "gauge",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "vulnerability_scans",
+            "field": "vulnerability_count"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
