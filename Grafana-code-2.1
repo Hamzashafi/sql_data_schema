@@ -1,0 +1,102 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "kubernetes_monitoring_dashboard",
+    "title": "Kubernetes Cluster Monitoring Dashboard",
+    "tags": ["kubernetes", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Node CPU Usage",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(node_cpu_util_percent)"
+          }
+        ]
+      },
+      {
+        "title": "Pod Memory Usage",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(container_memory_working_set_bytes) by (pod_name)"
+          }
+        ]
+      },
+      {
+        "title": "Cluster Resource Usage",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(node_cpu_util_percent)"
+          },
+          {
+            "expr": "avg(node_memory_MemTotal_bytes - node_memory_MemFree_bytes) / node_memory_MemTotal_bytes * 100"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
+
+                                                                  --------------------------------------------------------------------------------
+
+{
+  "dashboard": {
+    "id": null,
+    "uid": "database_monitoring_dashboard",
+    "title": "Database Monitoring Dashboard",
+    "tags": ["database", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Database Query Response Time",
+        "type": "graph",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "database_query_response_time",
+            "field": "value"
+          }
+        ]
+      },
+      {
+        "title": "Database Connection Pool Usage",
+        "type": "gauge",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "database_connection_pool",
+            "field": "usage_percent"
+          }
+        ]
+      },
+      {
+        "title": "Database Error Rate",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(database_error_total{database=\"postgres\"}[$__interval]))"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
