@@ -100,3 +100,53 @@
   "folderId": 0,
   "overwrite": false
 }
+
+
+                                                      ---------------------------------------------------------
+
+{
+  "dashboard": {
+    "id": null,
+    "uid": "container_monitoring_dashboard",
+    "title": "Container Monitoring Dashboard",
+    "tags": ["container", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Container CPU Usage",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(container_cpu_usage_seconds_total{container_name=\"my-app\"}) by (pod_name)"
+          }
+        ]
+      },
+      {
+        "title": "Container Memory Usage",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(container_memory_working_set_bytes) by (pod_name)"
+          }
+        ]
+      },
+      {
+        "title": "Container Restart Rate",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(container_start_total{container_name=\"my-app\"}[$__interval])) / sum(rate(container_last_started_time{container_name=\"my-app\"}[$__interval]))"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
