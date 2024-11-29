@@ -276,3 +276,51 @@
   "folderId": 0,
   "overwrite": false
 }
+
+                                                      ------------------------------------------------
+{
+  "dashboard": {
+    "id": null,
+    "uid": "server_health_dashboard",
+    "title": "Server Health Dashboard",
+    "tags": ["server", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "CPU Utilization",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(node_cpu_util_percent)"
+          }
+        ]
+      },
+      {
+        "title": "Memory Usage",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(node_memory_MemUsed_bytes / node_memory_MemTotal_bytes * 100)"
+          }
+        ]
+      },
+      {
+        "title": "Disk I/O",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(node_disk_io_bytes_total{device=~\"/dev/sd.*\"}[$__interval])) by (device)"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
