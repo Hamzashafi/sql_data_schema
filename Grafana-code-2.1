@@ -150,3 +150,54 @@
   "folderId": 0,
   "overwrite": false
 }
+
+                                                ------------------------------------------------------------
+
+{
+  "dashboard": {
+    "id": null,
+    "uid": "application_performance_monitoring_dashboard",
+    "title": "Application Performance Monitoring Dashboard",
+    "tags": ["application", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 21,
+    "version": 1,
+    "refresh": "5m",
+    "panels": [
+      {
+        "title": "Application Response Time",
+        "type": "graph",
+        "datasource": "InfluxDB",
+        "targets": [
+          {
+            "refId": "A",
+            "measurement": "application_response_time",
+            "field": "value"
+          }
+        ]
+      },
+      {
+        "title": "Error Rate",
+        "type": "gauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(application_error_total[$__interval]))"
+          }
+        ]
+      },
+      {
+        "title": "Top 5 Slowest Endpoints",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "topk(5, avg(http_request_duration_seconds_count) by (endpoint))"
+          }
+        ]
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": false
+}
